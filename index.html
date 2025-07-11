@@ -97,31 +97,38 @@
             width: 70px;
             height: 70px;
             border-radius: 50%;
-            background: var(--neon-green);
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
             border: none;
-            color: black;
-            font-size: 24px;
+            color: white;
+            font-size: 30px;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(9, 251, 211, 0.8);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2),
+                        0 0 15px var(--neon-pink),
+                        0 0 25px var(--neon-blue);
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
-            z-index: 2;
+            z-index: 10;
+            transform-origin: center;
         }
 
         .menu-button:hover {
-            transform: scale(1.1);
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3),
+                        0 0 20px var(--neon-pink),
+                        0 0 30px var(--neon-blue);
         }
 
         .menu-button.active {
-            transform: rotate(45deg);
+            transform: rotate(135deg);
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-green));
         }
 
         .menu-items {
             position: absolute;
-            bottom: 80px;
+            bottom: 90px;
             right: 0;
             width: 300px;
             height: 300px;
@@ -130,21 +137,24 @@
 
         .menu-item {
             position: absolute;
-            width: 60px;
-            height: 60px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
-            background: var(--neon-pink);
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             text-decoration: none;
-            font-size: 20px;
-            box-shadow: 0 0 15px rgba(254, 83, 187, 0.6);
-            transition: all 0.3s ease;
+            font-size: 22px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.2),
+                        0 0 10px var(--neon-pink),
+                        0 0 15px var(--neon-blue);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.4);
             transform: translate(0, 0) scale(0);
             opacity: 0;
             pointer-events: none;
+            border: 2px solid rgba(255,255,255,0.2);
         }
 
         .circular-menu.active .menu-item {
@@ -154,26 +164,82 @@
         }
 
         .menu-item:hover {
-            background: var(--neon-blue);
-            transform: scale(1.1) !important;
-            box-shadow: 0 0 25px rgba(8, 247, 254, 0.8);
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-blue));
+            transform: scale(1.15) !important;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3),
+                        0 0 15px var(--neon-green),
+                        0 0 25px var(--neon-blue);
         }
 
-        /* Позиции кнопок */
-        .menu-item:nth-child(1) { bottom: 220px; right: 120px; }
-        .menu-item:nth-child(2) { bottom: 180px; right: 30px; }
-        .menu-item:nth-child(3) { bottom: 100px; right: 10px; }
-        .menu-item:nth-child(4) { bottom: 30px; right: 30px; }
-        .menu-item:nth-child(5) { bottom: 10px; right: 100px; }
-        .menu-item:nth-child(6) { bottom: 30px; right: 180px; }
-        .menu-item:nth-child(7) { bottom: 100px; right: 220px; }
-        .menu-item:nth-child(8) { bottom: 180px; right: 180px; }
+        /* Tooltips для иконок */
+        .menu-item::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-family: 'Roboto', sans-serif;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
 
-        /* Анимации */
+        .menu-item:hover::after {
+            opacity: 1;
+        }
+
+        /* Позиции кнопок с плавной траекторией */
+        .menu-item:nth-child(1) { 
+            bottom: 220px; right: 120px;
+            transition-delay: 0.05s;
+            &::after { right: -80px; content: "Главная"; }
+        }
+        .menu-item:nth-child(2) { 
+            bottom: 180px; right: 30px;
+            transition-delay: 0.1s;
+            &::after { right: -70px; content: "О проекте"; }
+        }
+        .menu-item:nth-child(3) { 
+            bottom: 100px; right: 10px;
+            transition-delay: 0.15s;
+            &::after { right: -60px; content: "Правила"; }
+        }
+        .menu-item:nth-child(4) { 
+            bottom: 30px; right: 30px;
+            transition-delay: 0.2s;
+            &::after { right: -80px; content: "Бот"; }
+        }
+        .menu-item:nth-child(5) { 
+            bottom: 10px; right: 100px;
+            transition-delay: 0.25s;
+            &::after { bottom: -35px; content: "Канал"; }
+        }
+        .menu-item:nth-child(6) { 
+            bottom: 30px; right: 180px;
+            transition-delay: 0.3s;
+            &::after { left: -70px; content: "Чат"; }
+        }
+        .menu-item:nth-child(7) { 
+            bottom: 100px; right: 220px;
+            transition-delay: 0.35s;
+            &::after { left: -60px; content: "Команда"; }
+        }
+        .menu-item:nth-child(8) { 
+            bottom: 180px; right: 180px;
+            transition-delay: 0.4s;
+            &::after { left: -90px; content: "Менеджер"; }
+        }
+
+        /* Анимация пульсации для главной кнопки */
         @keyframes pulse {
-            0% { box-shadow: 0 0 10px rgba(9, 251, 211, 0.3); }
-            100% { box-shadow: 0 0 20px rgba(9, 251, 211, 0.6); }
+            0% { box-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-blue); }
+            50% { box-shadow: 0 0 15px var(--neon-pink), 0 0 30px var(--neon-blue); }
+            100% { box-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-blue); }
         }
+        .menu-button { animation: pulse 3s infinite; }
     </style>
 </head>
 <body>
@@ -190,18 +256,17 @@
         </footer>
     </div>
 
-    <!-- Круговое меню -->
     <div class="circular-menu">
-        <button class="menu-button">≡</button>
+        <button class="menu-button">+</button>
         <div class="menu-items">
-            <a href="index.html" class="menu-item">🏠</a>
-            <a href="home.html" class="menu-item">ℹ</a>
-            <a href="rulse.html" class="menu-item">📜</a>
-            <a href="https://t.me/DragonDemonic_bot" class="menu-item">🤖</a>
-            <a href="https://t.me/DragonDemonic_channel" class="menu-item">📢</a>
-            <a href="https://t.me/DragonDemonic_chat" class="menu-item">💬</a>
-            <a href="team.html" class="menu-item">👥</a>
-            <a href="https://t.me/DragonDemonic_Managerbot" class="menu-item">🛠</a>
+            <a href="index.html" class="menu-item" data-tooltip="Главная">🏠</a>
+            <a href="home.html" class="menu-item" data-tooltip="О проекте">ℹ</a>
+            <a href="rules.html" class="menu-item" data-tooltip="Правила">📜</a>
+            <a href="https://t.me/DragonDemonic_bot" class="menu-item" data-tooltip="Бот">🤖</a>
+            <a href="https://t.me/DragonDemonic_channel" class="menu-item" data-tooltip="Канал">📢</a>
+            <a href="https://t.me/DragonDemonic_chat" class="menu-item" data-tooltip="Чат">💬</a>
+            <a href="team.html" class="menu-item" data-tooltip="Команда">👥</a>
+            <a href="https://t.me/DragonDemonic_Managerbot" class="menu-item" data-tooltip="Менеджер">🛠</a>
         </div>
     </div>
 
@@ -213,10 +278,12 @@
             menuButton.addEventListener('click', function(e) {
                 e.stopPropagation();
                 circularMenu.classList.toggle('active');
+                this.classList.toggle('active');
             });
 
             document.addEventListener('click', function() {
                 circularMenu.classList.remove('active');
+                menuButton.classList.remove('active');
             });
 
             circularMenu.addEventListener('click', function(e) {
